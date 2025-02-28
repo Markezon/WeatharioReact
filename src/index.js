@@ -7,19 +7,19 @@ import "./style/style.scss";
 
 console.log(navigator.geolocation.getCurrentPosition);
 
-const weatherService = new WeatherService();
+/* const weatherService = new WeatherService(); */
 
-weatherService
+/* weatherService
   .getWeatherAirDetails()
-  .then((res) => console.log(res.list[0].components));
+  .then((res) => console.log(res.list[0].components)); */
 
-weatherService.getWeatherDetails().then((res) => console.log(res));
+/* weatherService.getWeatherDetails().then((res) => console.log(res)); */
 
-weatherService.getForecastDetails().then((res) => console.log(res.list));
+/* weatherService.getForecastDetails().then((res) => console.log(res.list)); */
 
-weatherService.getCityCoordinates().then((res) => console.log(res[0]));
+/* weatherService.getCityCoordinates().then((res) => console.log(res[0])); */
 
-weatherService.getUserCoordinates().then((res) => console.log(res[0]));
+/* weatherService.getUserCoordinates().then((res) => console.log(res[0])); */
 
 const container = document.getElementById("root");
 const root = createRoot(container);

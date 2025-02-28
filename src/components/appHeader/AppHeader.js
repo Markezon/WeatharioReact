@@ -1,22 +1,24 @@
-import './appHeader.scss';
-
 const AppHeader = () => {
-    return (
-        <header className="app__header">
-            <h1 className="app__title">
-                <a href="#">
-                    <span>Marvel</span> information portal
-                </a>
-            </h1>
-            <nav className="app__menu">
-                <ul>
-                    <li><a href="#">Characters</a></li>
-                    /
-                    <li><a href="#">Comics</a></li>
-                </ul>
-            </nav>
-        </header>
-    )
-}
+  return (
+    <header className="header">
+      <h2>Weather</h2>
+
+      <div className="wheather-input">
+        <input
+          type="text"
+          name="city"
+          id="city_input"
+          placeholder="Enter city name"
+        />
+        <button type="button" id="searchBtn">
+          <i className="fa-regular fa-search"></i> Search
+        </button>
+        <button type="button" id="locationBtn">
+          <i className="bx bx-target-lock"></i> Current Location
+        </button>
+      </div>
+    </header>
+  );
+};
 
 export default AppHeader;
