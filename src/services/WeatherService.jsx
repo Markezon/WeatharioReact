@@ -6,6 +6,39 @@ class WeatherService {
   lat = "55.7504461";
   lon = "37.6174943";
 
+  getDate = async () => {
+    let date = new Date();
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    let months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    return {
+      day: days[date.getDay()],
+      month: months[date.getMonth()],
+      year: date.getFullYear(),
+    };
+  };
+
   getResource = async (url) => {
     let res = await fetch(url);
 
@@ -36,34 +69,26 @@ class WeatherService {
     };
   };
 
-  getWeatherDetails = async () => {
+  /*   getWeatherDetails = async () => {
     return this.getResource(
       `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
-  };
+  }; */
 
-  /* getWeatherDetails = async () => {
+  getWeatherDetails = async () => {
     const res = await this.getResource(
       `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
-    return this._transformWeatherDetails(res.list[0].components);
-  }; */
+    return this._transformWeatherDetails(res);
+  };
 
-  /*   _transformWeatherDetails = (res) => {
+  _transformWeatherDetails = (res) => {
     return {
       temp: res.main.temp,
       description: res.weather[0].description,
-      icon: res.weather[0].icon,
-      //https://doka-guide.vercel.app/js/date///
-      //month//
-      //year//
-      o3: data.o3,
-      so2: data.so2,
-      pm2_5: data.pm2_5,
-      pm10: data.pm10,
-      nh3: data.nh3,
+      icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`,
     };
-  }; */
+  };
 
   getForecastDetails = async () => {
     return this.getResource(
