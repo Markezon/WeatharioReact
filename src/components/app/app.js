@@ -103,7 +103,9 @@ const App = () => {
           <div className="weather-right">
             <h2>Today's Highlights</h2>
             <div className="highlights">
-              <div className="card">
+              <AirQuality />
+
+              {/*               <div className="card">
                 <div className="card-head">
                   <p>Air Quality Index</p>
                   <p className="air-index aqi-1">Good</p>
@@ -150,7 +152,7 @@ const App = () => {
                     <h2>____</h2>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="card">
                 <div className="card-head">

@@ -17,9 +17,23 @@ class WeatherService {
   };
 
   getWeatherAirDetails = async () => {
-    return this.getResource(
+    const res = await this.getResource(
       `${this._apiBase}data/2.5/air_pollution?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
+    return this._transformAirDetails(res.list[0].components);
+  };
+
+  _transformAirDetails = (data) => {
+    return {
+      co: data.co,
+      no: data.no,
+      no2: data.no2,
+      o3: data.o3,
+      so2: data.so2,
+      pm2_5: data.pm2_5,
+      pm10: data.pm10,
+      nh3: data.nh3,
+    };
   };
 
   getWeatherDetails = async () => {
@@ -27,6 +41,29 @@ class WeatherService {
       `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
   };
+
+  /* getWeatherDetails = async () => {
+    const res = await this.getResource(
+      `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
+    );
+    return this._transformWeatherDetails(res.list[0].components);
+  }; */
+
+  /*   _transformWeatherDetails = (res) => {
+    return {
+      temp: res.main.temp,
+      description: res.weather[0].description,
+      icon: res.weather[0].icon,
+      //https://doka-guide.vercel.app/js/date///
+      //month//
+      //year//
+      o3: data.o3,
+      so2: data.so2,
+      pm2_5: data.pm2_5,
+      pm10: data.pm10,
+      nh3: data.nh3,
+    };
+  }; */
 
   getForecastDetails = async () => {
     return this.getResource(
