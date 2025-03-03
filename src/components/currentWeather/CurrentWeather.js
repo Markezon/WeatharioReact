@@ -15,6 +15,8 @@ class CurrentWeather extends Component {
     day: null,
     month: null,
     year: null,
+    /*     name: null,
+    counry: null, */
   };
 
   weatherService = new WeatherService();

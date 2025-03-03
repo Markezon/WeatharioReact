@@ -49,6 +49,8 @@ class WeatherService {
     return await res.json();
   };
 
+  //AirQuaility
+
   getWeatherAirDetails = async () => {
     const res = await this.getResource(
       `${this._apiBase}data/2.5/air_pollution?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
@@ -75,6 +77,8 @@ class WeatherService {
     );
   }; */
 
+  //CurrentWeather
+
   getWeatherDetails = async () => {
     const res = await this.getResource(
       `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
@@ -90,11 +94,37 @@ class WeatherService {
     };
   };
 
+  //SunRise SunSet
+
+  getSunRiseSetDetails = async () => {
+    const res = await this.getResource(
+      `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
+    );
+    return this._transformSunRiseSetDetails(res);
+  };
+
+  _transformSunRiseSetDetails = (res) => {
+    return {
+      sRiseTime: new Date(res.sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      sSetTime: new Date(res.sys.sunset * 1000).toLocaleTimeString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+  };
+
+  //Forecast
+
   getForecastDetails = async () => {
     return this.getResource(
       `${this._apiBase}data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
   };
+
+  //CityCoordinates
 
   getCityCoordinates = async () => {
     let cityName = "Moscow";
@@ -102,6 +132,8 @@ class WeatherService {
       `${this._apiBase}geo/1.0/direct?q=${cityName}&limit=1&appid=${this._apiKey}`
     );
   };
+
+  //UserLocation
 
   getUserCoordinates = async () => {
     return new Promise((resolve, reject) => {
