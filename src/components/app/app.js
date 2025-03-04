@@ -2,6 +2,7 @@ import AppHeader from "../appHeader/AppHeader";
 import AirQuality from "../airQuality/AirQuality";
 import CurrentWeather from "../currentWeather/CurrentWeather";
 import SunriseSunset from "../sunriseSunset/SunriseSunset";
+/* import Forecast from "../forecast/Forecast"; */
 
 const App = () => {
   return (
@@ -36,8 +37,9 @@ const App = () => {
               </div>
             </div> */}
             <CurrentWeather />
+            {/* <Forecast /> */}
 
-            <div className="card">
+            {/*             <div className="card">
               <h2>5 days Forecast</h2>
               <div className="day-forecast">
                 <div className="forecast-item">
@@ -100,7 +102,7 @@ const App = () => {
                   <p>____</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="weather-right">
@@ -238,6 +240,78 @@ const App = () => {
 
             <h2>Today at</h2>
             <div className="hourly-forecast">
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
+              <div className="card">
+                <p>9 AM</p>
+                <img
+                  src="https://openweathermap.org/img/wn/04d.png"
+                  alt="hourly-forecast"
+                />
+                <p>____&deg;C</p>
+              </div>
+
               <div className="card">
                 <p>9 AM</p>
                 <img

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Spinner from "../spinner/Spinner";
 import WeatherService from "../../services/WeatherService";
 
 class AirQuality extends Component {
@@ -8,33 +9,49 @@ class AirQuality extends Component {
   }
 
   state = {
-    co: null,
+    data: {},
+    loading: false,
+    /*     co: null,
     no: null,
     no2: null,
     o3: null,
     so2: null,
     pm2_5: null,
     pm10: null,
-    nh3: null,
+    nh3: null, */
   };
 
   weatherService = new WeatherService();
 
+  onDataLoaded = (data) => {
+    this.setState({ data });
+  };
+
   updateAirDetails = () => {
-    this.weatherService.getWeatherAirDetails().then((res) => {
-      this.setState(res);
-    });
+    this.weatherService.getWeatherAirDetails().then(this.onDataLoaded);
   };
 
   render() {
-    const { co, no, no2, o3, so2, pm2_5, pm10, nh3 } = this.state;
+    const {
+      data: { co, no, no2, o3, so2, pm2_5, pm10, nh3, aqi },
+      loading,
+    } = this.state;
+    const aqiList = ["Good", "Fair", "Moderate", "Poor", "Very Poor"];
+    let aqiClass = `air-index aqi-${aqi}`;
+
+    if (loading) {
+      return (
+        <div className="card">
+          <Spinner />
+        </div>
+      );
+    }
+
     return (
       <div className="card">
         <div className="card-head">
           <p>Air Quality Index</p>
-          {/*           <p className="air-index aqi-${data.list[0].main.aqi}">
-            {aqiList[data.list[0].main.aqi - 1]}
-          </p> */}
+          <p className={aqiClass}>{aqiList[aqi - 1]}</p>
         </div>
 
         <div className="air-indices">

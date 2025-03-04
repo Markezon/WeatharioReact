@@ -9,14 +9,13 @@ class CurrentWeather extends Component {
   }
 
   state = {
-    temp: null,
+    data: {}
+/*     temp: null,
     description: null,
     icon: null,
     day: null,
     month: null,
-    year: null,
-    /*     name: null,
-    counry: null, */
+    year: null, */
   };
 
   weatherService = new WeatherService();

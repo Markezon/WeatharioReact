@@ -13,9 +13,44 @@ const weatherService = new WeatherService();
   .getWeatherAirDetails()
   .then((res) => console.log(res.list[0].components)); */
 
-weatherService.getWeatherDetails().then((res) => console.log(res));
+/* weatherService.getWeatherDetails().then((res) => console.log(res)); */
 
-/* weatherService.getForecastDetails().then((res) => console.log(res.list)); */
+/* weatherService.getDayForecastDetails().then((res) => console.log(res.list)); */
+/* weatherService.getDayForecastDetails(); */
+weatherService.getWeatherAirDetails22().then((res) => console.log(res));
+/* weatherService.getDayForecastDetails().then((res) =>
+  console.log(
+    res.list.reduce((acc, item) => {
+      const date = item.dt_txt.split(" ")[0]; // Получаем YYYY-MM-DD
+      if (!acc[date]) {
+        acc[date] = { temps: [] };
+      }
+      acc[date].temps.push(item.main.temp);
+      return acc;
+    }, {})
+  )
+); */
+
+/* const getFiveDayAvgTemp = (data) => {
+  const dailyData = data.list.reduce((acc, item) => {
+    const date = item.dt_txt.split(" ")[0]; // Получаем YYYY-MM-DD
+    if (!acc[date]) {
+      acc[date] = { temps: [] };
+    }
+    acc[date].temps.push(item.main.temp);
+    return acc;
+  }, {});
+
+  return Object.keys(dailyData)
+    .slice(0, 5) // Берем только 5 дней
+    .map((date) => ({
+      date,
+      avgTemp: (
+        dailyData[date].temps.reduce((sum, t) => sum + t, 0) /
+        dailyData[date].temps.length
+      ).toFixed(1),
+    }));
+}; */
 
 /* weatherService.getCityCoordinates().then((res) => console.log(res[0])); */
 
