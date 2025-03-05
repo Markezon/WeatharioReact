@@ -16,8 +16,8 @@ const weatherService = new WeatherService();
 /* weatherService.getWeatherDetails().then((res) => console.log(res)); */
 
 /* weatherService.getDayForecastDetails().then((res) => console.log(res.list)); */
-/* weatherService.getDayForecastDetails(); */
-weatherService.getWeatherAirDetails22().then((res) => console.log(res));
+weatherService.getDayForecastDetails();
+/* weatherService.getWeatherAirDetails22().then((res) => console.log(res)); */
 /* weatherService.getDayForecastDetails().then((res) =>
   console.log(
     res.list.reduce((acc, item) => {

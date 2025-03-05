@@ -2,7 +2,7 @@ import AppHeader from "../appHeader/AppHeader";
 import AirQuality from "../airQuality/AirQuality";
 import CurrentWeather from "../currentWeather/CurrentWeather";
 import SunriseSunset from "../sunriseSunset/SunriseSunset";
-/* import Forecast from "../forecast/Forecast"; */
+import Forecast from "../forecast/Forecast";
 
 const App = () => {
   return (
@@ -37,7 +37,7 @@ const App = () => {
               </div>
             </div> */}
             <CurrentWeather />
-            {/* <Forecast /> */}
+            <Forecast />
 
             {/*             <div className="card">
               <h2>5 days Forecast</h2>

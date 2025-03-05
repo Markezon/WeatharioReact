@@ -53,11 +53,11 @@ class WeatherService {
 
   //AirQuaility
 
-  getWeatherAirDetails22 = async () => {
+  /*   getWeatherAirDetails22 = async () => {
     return this.getResource(
       `${this._apiBase}data/2.5/air_pollution?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
-  };
+  }; */
 
   getWeatherAirDetails = async () => {
     const res = await this.getResource(
@@ -132,7 +132,7 @@ class WeatherService {
   /* `${this._apiBase}data/2.5/forecast/daily?lat=${this.lat}&lon=${this.lon}&cnt=${this.cnt}&appid=${this._apiKey}` */
   /* `${this._apiBase}data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}` */
   /////////////////////////
-  /*     getDayForecastDetails = async () => {
+  /*   getDayForecastDetails = async () => {
     return this.getResource(
       `${this._apiBase}data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
@@ -164,7 +164,7 @@ class WeatherService {
       }, {})
     );
 
-    console.log(data);
+    /* console.log(data); */
     console.log(filteredData);
     return filteredData;
 
