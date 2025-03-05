@@ -4,10 +4,10 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 import WeatherService from "../../services/WeatherService";
 
 class AirQuality extends Component {
-  constructor(props) {
+  /*   constructor(props) {
     super(props);
     this.updateAirDetails();
-  }
+  } */
 
   state = {
     data: {},
@@ -24,6 +24,15 @@ class AirQuality extends Component {
   };
 
   weatherService = new WeatherService();
+
+  componentDidMount() {
+    this.updateAirDetails();
+    this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000);
+  }
+
+  componentDidUpdate() {
+    clearInterval(this.timerId);
+  }
 
   onDataLoaded = (data) => {
     this.setState({
