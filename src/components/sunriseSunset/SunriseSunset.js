@@ -1,56 +1,92 @@
 import { Component } from "react";
+import Spinner from "../spinner/Spinner";
+import ErrorMessage from "../errorMessage/ErrorMessage";
 import WeatherService from "../../services/WeatherService";
 
 class SunriseSunset extends Component {
-  constructor(props) {
-    super(props);
-    this.updateSunRiseSetDetails();
-  }
-
   state = {
-    sRiseTime: null,
-    sSetTime: null,
+    /*     sRiseTime: null,
+    sSetTime: null, */
+    data: {},
+    loading: true,
+    error: false,
   };
 
   weatherService = new WeatherService();
 
-  updateSunRiseSetDetails = () => {
-    this.weatherService.getSunRiseSetDetails().then((res) => {
-      this.setState(res);
+  componentDidMount() {
+    this.updateSunRiseSetDetails();
+  }
+
+  onDataLoaded = (data) => {
+    this.setState({
+      data,
+      loading: false,
     });
   };
 
+  onError = () => {
+    this.setState({
+      loading: false,
+      error: true,
+    });
+  };
+
+  updateSunRiseSetDetails = () => {
+    this.weatherService
+      .getSunRiseSetDetails()
+      .then(this.onDataLoaded)
+      .catch(this.onError);
+  };
+
   render() {
-    const { sRiseTime, sSetTime } = this.state;
+    const { data, loading, error } = this.state;
+
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? <View data={data} /> : null;
+
     return (
       <div className="card">
         <div className="card-head">
           <p>Sunrise & Sunset</p>
         </div>
-        <div className="sunrise-sunset">
-          <div className="item">
-            <div className="icon">
-              <i className="fa-light fa-sunrise fa-4x"></i>
-            </div>
-            <div>
-              <p>Sunrise</p>
-              <h2>{sRiseTime}</h2>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="icon">
-              <i className="fa-light fa-sunset fa-4x"></i>
-            </div>
-            <div>
-              <p>Sunset</p>
-              <h2>{sSetTime}</h2>
-            </div>
-          </div>
-        </div>
+        {errorMessage}
+        {spinner}
+        {content}
       </div>
     );
   }
 }
+
+const View = ({ data }) => {
+  const { sRiseTime, sSetTime } = data;
+
+  return (
+    <>
+      <div className="sunrise-sunset">
+        <div className="item">
+          <div className="icon">
+            <i className="fa-light fa-sunrise fa-4x"></i>
+          </div>
+          <div>
+            <p>Sunrise</p>
+            <h2>{sRiseTime}</h2>
+          </div>
+        </div>
+
+        <div className="item">
+          <div className="icon">
+            <i className="fa-light fa-sunset fa-4x"></i>
+          </div>
+          <div>
+            <p>Sunset</p>
+            <h2>{sSetTime}</h2>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default SunriseSunset;

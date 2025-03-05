@@ -27,7 +27,7 @@ class AirQuality extends Component {
 
   componentDidMount() {
     this.updateAirDetails();
-    this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000);
+/*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
   componentDidUpdate() {

@@ -5,7 +5,7 @@ class WeatherService {
 
   lat = "55.7504461";
   lon = "37.6174943";
-  cnt = "5";
+  /* cnt = "5"; */
 
   getDate = async () => {
     let date = new Date();
@@ -34,6 +34,7 @@ class WeatherService {
     ];
 
     return {
+      dayNumber: date.getDate(),
       day: days[date.getDay()],
       month: months[date.getMonth()],
       year: date.getFullYear(),
@@ -94,11 +95,14 @@ class WeatherService {
     return this._transformWeatherDetails(res);
   };
 
-  _transformWeatherDetails = (res) => {
+  _transformWeatherDetails = (data) => {
     return {
-      temp: res.main.temp,
-      description: res.weather[0].description,
-      icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`,
+      temp: data.main.temp,
+      description: data.weather[0].description,
+      icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+      /*       day: null,
+      month: null,
+      year: null, */
     };
   };
 
