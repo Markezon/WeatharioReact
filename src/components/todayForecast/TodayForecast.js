@@ -3,7 +3,7 @@ import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import WeatherService from "../../services/WeatherService";
 
-class Forecast extends Component {
+class TodayForecast extends Component {
   state = {
     data: [],
     loading: true,
@@ -30,11 +30,9 @@ class Forecast extends Component {
     });
   };
 
-  param = true;
-
   updateDayForecastDetails = () => {
     this.weatherService
-      .getDayForecastDetails(this.param)
+      .getDayForecastDetails()
       .then(this.onDataLoaded)
       .catch(this.onError);
   };
@@ -42,18 +40,10 @@ class Forecast extends Component {
   renderItems(arr) {
     return arr.map((item) => {
       return (
-        <div
-          className="forecast-item"
-          key={`${item.dayNumber}-${item.month}-${item.day}`}
-        >
-          <div className="icon-wrapper">
-            <img src={item.icon} alt="forecast_img" />
-            <span>{(item.temp - 273.15).toFixed(2)}&deg;C</span>
-          </div>
-          <p>
-            {item.dayNumber} {item.month}
-          </p>
-          <p>{item.day}</p>
+        <div className="card" key={`${item.time}-${item.temp}-${item.icon}`}>
+          <p>{item.time}</p>
+          <img src={item.icon} alt="hourly-forecast" />
+          <p>{(item.temp - 273.15).toFixed(2)}&deg;C</p>
         </div>
       );
     });
@@ -68,16 +58,13 @@ class Forecast extends Component {
     const content = !(loading || error) ? items : null;
 
     return (
-      <div className="card">
-        <h2>5 days Forecast</h2>
-        <div className="day-forecast">
-          {errorMessage}
-          {spinner}
-          {content}
-        </div>
+      <div className="hourly-forecast">
+        {errorMessage}
+        {spinner}
+        {content}
       </div>
     );
   }
 }
 
-export default Forecast;
+export default TodayForecast;

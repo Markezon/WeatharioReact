@@ -100,9 +100,11 @@ class WeatherService {
       temp: data.main.temp,
       description: data.weather[0].description,
       icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-      /*       day: null,
-      month: null,
-      year: null, */
+      humidity: data.main.humidity,
+      pressure: data.main.pressure,
+      feels_like: data.main.feels_like,
+      windSpeed: data.wind.speed,
+      visibility: data.visibility,
     };
   };
 
@@ -138,11 +140,30 @@ class WeatherService {
     );
   }; */
   /////////////////////////
-  getDayForecastDetails = async () => {
+  getDayForecastDetails = async (param) => {
     const res = await this.getResource(
       `${this._apiBase}data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
-    return this._transformDayForecastDetails(res);
+    if (param) {
+      return this._transformDayForecastDetails(res);
+    } else return this._transformTodayDetails(res);
+  };
+
+  _transformTodayDetails = (res) => {
+    /*     const today = new Date().toISOString().split("T")[0]; */
+
+    const data = res.list
+      .slice(0, 8)
+      /*       .filter((item) => item.dt_txt.startsWith(today)) */
+      .map((item) => ({
+        /*         dayNumber: new Date(item.dt_txt).getDate(), */
+        time: item.dt_txt.split(" ")[1].slice(0, 5),
+        temp: item.main.temp,
+        icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}.png`,
+      }));
+
+    console.log(data);
+    return data;
   };
 
   _transformDayForecastDetails = (res) => {
@@ -174,8 +195,6 @@ class WeatherService {
         return acc;
       }, {})
     );
-
-    console.log(filteredData);
 
     return filteredData;
   };
