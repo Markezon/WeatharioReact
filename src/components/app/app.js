@@ -39,7 +39,7 @@ const App = () => {
               </div>
             </div> */}
             <CurrentWeather />
-            <Forecast />
+            <TodayForecast />
 
             {/*             <div className="card">
               <h2>5 days Forecast</h2>
@@ -241,9 +241,6 @@ const App = () => {
                 </div>
               </div> */}
             </div>
-
-            <h2>Today at</h2>
-            <TodayForecast />
             {/*             <div className="hourly-forecast">
               <div className="card">
                 <p>9 AM</p>
@@ -317,6 +314,8 @@ const App = () => {
                 <p>____&deg;C</p>
               </div>
             </div> */}
+            <h2>5 days forecast</h2>
+            <Forecast />
           </div>
         </div>
       </main>

@@ -4,12 +4,6 @@ import Spinner from "../spinner/Spinner";
 import WeatherService from "../../services/WeatherService";
 
 class CurrentWeather extends Component {
-  /*   constructor(props) {
-    super(props);
-    this.updateWeatherDetails();
-    this.updateDate();
-  } */
-
   state = {
     data: {},
     loading: true,
@@ -19,8 +13,10 @@ class CurrentWeather extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateWeatherDetails();
-    this.updateDate();
+    this.updateUserCoordinates().then(() => {
+      this.updateWeatherDetails();
+      this.updateDate();
+    });
     /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
@@ -49,10 +45,6 @@ class CurrentWeather extends Component {
       .catch(this.onError);
   };
 
-  /*   updateDate = () => {
-    this.weatherService.getDate().then(this.onDataLoaded).catch(this.onError);
-  }; */
-
   updateDate = () => {
     this.weatherService.getDate().then((res) => {
       this.setState({
@@ -64,8 +56,18 @@ class CurrentWeather extends Component {
     });
   };
 
+  updateUserCoordinates = () => {
+    return this.weatherService.getUserCoordinates().then((res) => {
+      this.setState({
+        city: res.city,
+        country: res.country,
+      });
+    });
+  };
+
   render() {
-    const { data, loading, error, dayNumber, day, month, year } = this.state;
+    const { data, loading, error, dayNumber, day, month, year, city, country } =
+      this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = !(loading || error) ? (
@@ -75,6 +77,8 @@ class CurrentWeather extends Component {
         day={day}
         month={month}
         year={year}
+        city={city}
+        country={country}
       />
     ) : null;
 
@@ -88,7 +92,7 @@ class CurrentWeather extends Component {
   }
 }
 
-const View = ({ data, dayNumber, day, month, year }) => {
+const View = ({ data, dayNumber, day, month, year, city, country }) => {
   const { temp, description, icon } = data;
 
   return (
@@ -111,8 +115,7 @@ const View = ({ data, dayNumber, day, month, year }) => {
           {year}
         </p>
         <p>
-          <i className="fa-light fa-location-dot"></i>{" "}
-          {/* ${name}, ${country} */}
+          <i className="fa-light fa-location-dot"></i> {city}, {country}
         </p>
       </div>
     </>

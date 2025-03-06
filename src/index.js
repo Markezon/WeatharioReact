@@ -14,8 +14,10 @@ const weatherService = new WeatherService();
   .then((res) => console.log(res.list[0].components)); */
 
 weatherService.getWeatherDetails().then((res) => console.log(res));
+weatherService.getUserCoordinates().then((res) => console.log(res));
 
-/* weatherService.getDayForecastDetails().then((res) => console.log(res.list)); */
+weatherService.getDayForecastDetails().then((res) => console.log(res.list));
+
 /* weatherService.getDayForecastDetails(); */
 /* weatherService.getWeatherAirDetails22().then((res) => console.log(res)); */
 /* weatherService.getDayForecastDetails().then((res) =>

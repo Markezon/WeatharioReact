@@ -5,7 +5,11 @@ class WeatherService {
 
   lat = "55.7504461";
   lon = "37.6174943";
-  /* cnt = "5"; */
+
+  setCoordinates(latitude, longitude) {
+    this.lat = latitude;
+    this.lon = longitude;
+  }
 
   getDate = async () => {
     let date = new Date();
@@ -159,7 +163,9 @@ class WeatherService {
         /*         dayNumber: new Date(item.dt_txt).getDate(), */
         time: item.dt_txt.split(" ")[1].slice(0, 5),
         temp: item.main.temp,
-        icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}.png`,
+        icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
+        description: item.weather[0].description,
+        description2: item.weather[0].main,
       }));
 
     console.log(data);
@@ -209,8 +215,17 @@ class WeatherService {
   };
 
   //UserLocation
+  /*   getUserCoordinates = async () => {
+    const { latitude, longitude } =
+      navigator.geolocation.getCurrentPosition.position.coords;
 
-  getUserCoordinates = async () => {
+    const res = await this.getResource(
+      `${this._apiBase}geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${this._apiKey}`
+    );
+    return this._transformWeatherDetails(res);
+  }; */
+
+  /*   getUserCoordinates = async () => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -229,6 +244,37 @@ class WeatherService {
         { enableHighAccuracy: true }
       );
     });
+  }; */
+
+  getUserCoordinates = async () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            this.setCoordinates(latitude, longitude); // Обновляем координаты
+
+            const res = await this.getResource(
+              `${this._apiBase}geo/1.0/reverse?lat=${this.lat}&lon=${this.lon}&limit=1&appid=${this._apiKey}`
+            );
+            resolve(this._transformGetUserCoordinates(res));
+          },
+          (error) => reject(error),
+          { enableHighAccuracy: true }
+        );
+      } else {
+        reject(new Error("Geolocation is not supported by this browser."));
+      }
+    });
+  };
+
+  _transformGetUserCoordinates = (data) => {
+    return {
+      city: data[0].name,
+      country: data[0].country,
+      lat: data[0].lat,
+      lon: data[0].lon,
+    };
   };
 }
 

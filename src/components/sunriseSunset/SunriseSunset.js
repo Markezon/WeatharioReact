@@ -15,7 +15,9 @@ class SunriseSunset extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateSunRiseSetDetails();
+    this.updateUserCoordinates().then(() => {
+      this.updateSunRiseSetDetails();
+    });
   }
 
   onDataLoaded = (data) => {
@@ -30,6 +32,10 @@ class SunriseSunset extends Component {
       loading: false,
       error: true,
     });
+  };
+
+  updateUserCoordinates = () => {
+    return this.weatherService.getUserCoordinates();
   };
 
   updateSunRiseSetDetails = () => {

@@ -26,8 +26,10 @@ class AirQuality extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateAirDetails();
-/*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
+    this.updateUserCoordinates().then(() => {
+      this.updateAirDetails();
+    });
+    /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
   componentDidUpdate() {
@@ -46,6 +48,10 @@ class AirQuality extends Component {
       loading: false,
       error: true,
     });
+  };
+
+  updateUserCoordinates = () => {
+    return this.weatherService.getUserCoordinates();
   };
 
   updateAirDetails = () => {

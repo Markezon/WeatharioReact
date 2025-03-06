@@ -13,7 +13,10 @@ class WeatherDetails extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateWeatherDetails();
+    this.updateUserCoordinates().then(() => {
+      this.updateWeatherDetails();
+    });
+
     /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
@@ -33,6 +36,10 @@ class WeatherDetails extends Component {
       loading: false,
       error: true,
     });
+  };
+
+  updateUserCoordinates = () => {
+    return this.weatherService.getUserCoordinates();
   };
 
   updateWeatherDetails = () => {

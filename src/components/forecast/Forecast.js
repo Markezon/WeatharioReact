@@ -13,7 +13,9 @@ class Forecast extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateDayForecastDetails();
+    this.updateUserCoordinates().then(() => {
+      this.updateDayForecastDetails();
+    });
   }
 
   onDataLoaded = (data) => {
@@ -30,6 +32,10 @@ class Forecast extends Component {
     });
   };
 
+  updateUserCoordinates = () => {
+    return this.weatherService.getUserCoordinates();
+  };
+
   param = true;
 
   updateDayForecastDetails = () => {
@@ -43,6 +49,17 @@ class Forecast extends Component {
     return arr.map((item) => {
       return (
         <div
+          className="card"
+          key={`${item.dayNumber}-${item.month}-${item.day}`}
+        >
+          <p>{item.day}</p>
+          <p>
+            {item.dayNumber} {item.month}
+          </p>
+          <img src={item.icon} alt="hourly-forecast" />
+          <p>{(item.temp - 273.15).toFixed(2)}&deg;C</p>
+        </div>
+        /*         <div
           className="forecast-item"
           key={`${item.dayNumber}-${item.month}-${item.day}`}
         >
@@ -54,7 +71,7 @@ class Forecast extends Component {
             {item.dayNumber} {item.month}
           </p>
           <p>{item.day}</p>
-        </div>
+        </div> */
       );
     });
   }
@@ -68,14 +85,19 @@ class Forecast extends Component {
     const content = !(loading || error) ? items : null;
 
     return (
-      <div className="card">
+      <div className="hourly-forecast">
+        {errorMessage}
+        {spinner}
+        {content}
+      </div>
+      /*       <div className="card">
         <h2>5 days Forecast</h2>
         <div className="day-forecast">
           {errorMessage}
           {spinner}
           {content}
         </div>
-      </div>
+      </div> */
     );
   }
 }
