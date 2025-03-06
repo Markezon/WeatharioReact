@@ -98,16 +98,18 @@ class Forecast extends Component {
   renderItems(arr) {
     return arr.map((item) => {
       return (
-        <div className="forecast-item">
+        <div
+          className="forecast-item"
+          key={`${item.dayNumber}-${item.month}-${item.day}`}
+        >
           <div className="icon-wrapper">
             <img src={item.icon} alt="forecast_img" />
-            <span>{item.temp}&deg;C</span>
+            <span>{(item.temp - 273.15).toFixed(2)}&deg;C</span>
           </div>
           <p>
-            {item.dayNumber}
-            {item.day}
+            {item.dayNumber} {item.month}
           </p>
-          <p>{item.month}</p>
+          <p>{item.day}</p>
         </div>
       );
     });
