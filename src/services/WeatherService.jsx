@@ -122,17 +122,29 @@ class WeatherService {
   };
 
   _transformSunRiseSetDetails = (res) => {
+    const options = { hour: "2-digit", minute: "2-digit", timeZone: "UTC" };
     return {
-      sRiseTime: new Date(res.sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
+      sRiseTime: new Intl.DateTimeFormat("en-US", options).format(
+        new Date((res.sys.sunrise + res.timezone) * 1000)
+      ),
+      sSetTime: new Intl.DateTimeFormat("en-US", options).format(
+        new Date((res.sys.sunset + res.timezone) * 1000)
+      ),
+    };
+  };
+
+  /*   _transformSunRiseSetDetails = (res) => {
+    return {
+      sRiseTime: new Date(res.sys.sunrise * 1000).toLocaleString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      sSetTime: new Date(res.sys.sunset * 1000).toLocaleTimeString("ru-RU", {
+      sSetTime: new Date(res.sys.sunset * 1000).toLocaleString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
       }),
     };
-  };
+  }; */
 
   //DayForecast
   /* `${this._apiBase}data/2.5/forecast/daily?lat=${this.lat}&lon=${this.lon}&cnt=${this.cnt}&appid=${this._apiKey}` */
@@ -207,12 +219,55 @@ class WeatherService {
 
   //CityCoordinates
 
-  getCityCoordinates = async () => {
-    let cityName = "Moscow";
+  /*   getCityCoordinates = async (cityName) => {
     return this.getResource(
       `${this._apiBase}geo/1.0/direct?q=${cityName}&limit=1&appid=${this._apiKey}`
     );
+
+  }; */
+
+  /*   getCityCoordinates = async (cityName) => {
+    return this.getResource(
+      `${this._apiBase}geo/1.0/direct?q=${cityName}&limit=1&appid=${this._apiKey}`
+    );
+  }; */
+
+  getCityCoordinates = async (cityName) => {
+    const data = await this.getResource(
+      `${this._apiBase}geo/1.0/direct?q=${cityName}&limit=1&appid=${this._apiKey}`
+    );
+    return this._transformGetCityCoordinates(data);
   };
+
+  _transformGetCityCoordinates = (data) => {
+    return {
+      country: data[0].country,
+      lat: data[0].lat,
+      lon: data[0].lon,
+      name: data[0].name,
+    };
+  };
+
+  /*   function getCityCoordinates() {
+    let cityName = cityInput.value.trim();
+    cityInput.value = "";
+    if (!cityInput) return;
+    let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
+    fetch(GEOCODING_API_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data[0]);
+        let { name, lat, lon, country, state } = data[0];
+        getWeatherDetails(name, lat, lon, country, state);
+      })
+      .catch(() => {
+        alert(`Failed to fetch coordinates of ${cityName}`);
+      });
+  } */
+
+  /*   _transformGetCityCoordinates = (data) => {
+    return this.setCoordinates(data[0].lat, data[0].lon);
+  }; */
 
   //UserLocation
   /*   getUserCoordinates = async () => {

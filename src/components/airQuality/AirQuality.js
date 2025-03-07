@@ -26,13 +26,18 @@ class AirQuality extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateUserCoordinates().then(() => {
+    this.updateAirDetails();
+    /*     this.updateUserCoordinates().then(() => {
       this.updateAirDetails();
-    });
+    }); */
     /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon) {
+      this.updateAirDetails();
+    }
+
     clearInterval(this.timerId);
   }
 
@@ -50,11 +55,13 @@ class AirQuality extends Component {
     });
   };
 
-  updateUserCoordinates = () => {
+  /*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates();
-  };
+  }; */
 
   updateAirDetails = () => {
+    this.weatherService.setCoordinates(this.props.lat, this.props.lon);
+    this.setState({ loading: true, error: false });
     this.weatherService
       .getWeatherAirDetails()
       .then(this.onDataLoaded)

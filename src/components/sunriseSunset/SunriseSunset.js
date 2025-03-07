@@ -15,9 +15,18 @@ class SunriseSunset extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateUserCoordinates().then(() => {
+    this.updateSunRiseSetDetails();
+    /*     this.updateUserCoordinates().then(() => {
       this.updateSunRiseSetDetails();
-    });
+    }); */
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon) {
+      this.updateSunRiseSetDetails();
+    }
+
+    clearInterval(this.timerId);
   }
 
   onDataLoaded = (data) => {
@@ -34,11 +43,13 @@ class SunriseSunset extends Component {
     });
   };
 
-  updateUserCoordinates = () => {
+/*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates();
-  };
+  }; */
 
   updateSunRiseSetDetails = () => {
+    this.weatherService.setCoordinates(this.props.lat, this.props.lon);
+    this.setState({ loading: true, error: false });
     this.weatherService
       .getSunRiseSetDetails()
       .then(this.onDataLoaded)
