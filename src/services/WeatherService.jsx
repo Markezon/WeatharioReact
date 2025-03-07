@@ -3,8 +3,8 @@ class WeatherService {
 
   _apiKey = "d57e7dd67678ae3df53bfb464eebf81a";
 
-  lat = "55.7504461";
-  lon = "37.6174943";
+  /*   lat = "55.7504461";
+  lon = "37.6174943"; */
 
   setCoordinates(latitude, longitude) {
     this.lat = latitude;

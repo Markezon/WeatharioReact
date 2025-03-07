@@ -13,16 +13,26 @@ class CurrentWeather extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateUserCoordinates().then(() => {
+    this.updateWeatherDetails();
+    this.updateDate();
+    /*     this.updateUserCoordinates().then(() => {
       this.updateWeatherDetails();
       this.updateDate();
-    });
+    }); */
     /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
   componentDidUpdate() {
-    clearInterval(this.timerId);
+    console.log(this.props.city);
+    /*     this.updateNameCountry(); */
   }
+
+  updateNameCountry = () => {
+    this.setState({
+      city: this.props.city,
+      country: this.props.country,
+    });
+  };
 
   onDataLoaded = (data) => {
     this.setState({
@@ -39,6 +49,8 @@ class CurrentWeather extends Component {
   };
 
   updateWeatherDetails = () => {
+    this.weatherService.setCoordinates(this.props.lat, this.props.lon);
+    this.setState({ loading: true, error: false });
     this.weatherService
       .getWeatherDetails()
       .then(this.onDataLoaded)
@@ -56,18 +68,26 @@ class CurrentWeather extends Component {
     });
   };
 
-  updateUserCoordinates = () => {
+/*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates().then((res) => {
       this.setState({
         city: res.city,
         country: res.country,
       });
     });
-  };
+  }; */
 
   render() {
-    const { data, loading, error, dayNumber, day, month, year, city, country } =
-      this.state;
+    const {
+      data,
+      loading,
+      error,
+      dayNumber,
+      day,
+      month,
+      year /* , city, country  */,
+    } = this.state;
+    const { city, country } = this.props;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = !(loading || error) ? (

@@ -6,6 +6,10 @@ class AppHeader extends Component {
     this.cityInput = createRef();
   }
 
+  handleCurrentLocation = () => {
+    this.props.updateUserCoordinates();
+  };
+
   handleSearch = () => {
     const cityName = this.cityInput.current.value.trim();
     if (cityName) {
@@ -37,7 +41,11 @@ class AppHeader extends Component {
           <button type="button" id="searchBtn" onClick={this.handleSearch}>
             <i className="fa-regular fa-search"></i> Search
           </button>
-          <button type="button" id="locationBtn">
+          <button
+            type="button"
+            id="locationBtn"
+            onClick={this.handleCurrentLocation}
+          >
             <i className="bx bx-target-lock"></i> Current Location
           </button>
         </div>

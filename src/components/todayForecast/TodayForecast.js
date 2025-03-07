@@ -13,9 +13,16 @@ class TodayForecast extends Component {
   weatherService = new WeatherService();
 
   componentDidMount() {
-    this.updateUserCoordinates().then(() => {
+    this.updateDayForecastDetails();
+    /*     this.updateUserCoordinates().then(() => {
       this.updateDayForecastDetails();
-    });
+    }); */
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon) {
+      this.updateDayForecastDetails();
+    }
   }
 
   onDataLoaded = (data) => {
@@ -32,11 +39,13 @@ class TodayForecast extends Component {
     });
   };
 
-  updateUserCoordinates = () => {
+  /*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates();
-  };
+  }; */
 
   updateDayForecastDetails = () => {
+    this.weatherService.setCoordinates(this.props.lat, this.props.lon);
+    this.setState({ loading: true, error: false });
     this.weatherService
       .getDayForecastDetails()
       .then(this.onDataLoaded)

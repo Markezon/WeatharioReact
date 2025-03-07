@@ -43,7 +43,7 @@ class SunriseSunset extends Component {
     });
   };
 
-/*   updateUserCoordinates = () => {
+  /*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates();
   }; */
 
