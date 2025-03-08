@@ -22,8 +22,10 @@ class CurrentWeather extends Component {
     /*     this.timerId = setInterval(this.updateAirDetails, 10 * 60 * 1000); */
   }
 
-  componentDidUpdate() {
-    console.log(this.props.city);
+  componentDidUpdate(prevProps) {
+    if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon) {
+      this.updateWeatherDetails();
+    }
     /*     this.updateNameCountry(); */
   }
 
@@ -68,7 +70,7 @@ class CurrentWeather extends Component {
     });
   };
 
-/*   updateUserCoordinates = () => {
+  /*   updateUserCoordinates = () => {
     return this.weatherService.getUserCoordinates().then((res) => {
       this.setState({
         city: res.city,
@@ -113,7 +115,7 @@ class CurrentWeather extends Component {
 }
 
 const View = ({ data, dayNumber, day, month, year, city, country }) => {
-  const { temp, description, icon } = data;
+  const { temp, description, icon, feels_like } = data;
 
   return (
     <>
@@ -137,6 +139,19 @@ const View = ({ data, dayNumber, day, month, year, city, country }) => {
         <p>
           <i className="fa-light fa-location-dot"></i> {city}, {country}
         </p>
+      </div>
+      <hr />
+
+      <div className="feelsLike__card">
+        <div className="feelsLike__card-item">
+          <div className="feelsLike__card-head">
+            <p>Feels like</p>
+          </div>
+          <i className="fa-light fa-temperature-list fa-2x"></i>
+          <h2 id="feelsVal">{(feels_like - 273.15).toFixed(2)}&deg;C</h2>
+        </div>
+
+        <img src={icon} alt="weather-icon" className="weatherImg" />
       </div>
     </>
   );

@@ -46,7 +46,15 @@ class AppHeader extends Component {
   render() {
     return (
       <header className="header">
-        <h2>Weather</h2>
+        <div className="header_wrapper">
+          <img
+            src={`${process.env.PUBLIC_URL}/WeatharioLogo.svg`}
+            alt="Logo"
+            className="header_logo"
+          />
+
+          <h2>Weathario</h2>
+        </div>
 
         <div className="wheather-input">
           <input

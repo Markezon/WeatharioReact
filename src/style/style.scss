@@ -46,6 +46,15 @@ hr {
   align-items: center;
   margin-bottom: 10px;
   padding: 15px 0;
+  &_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &_logo {
+    width: 50px;
+    height: 50px;
+  }
   & #city_input {
     background-color: var(--bg-color2);
     border: none;
@@ -75,11 +84,16 @@ hr {
   }
 }
 
+.wheather-input {
+  display: flex;
+  gap: 5px;
+}
+
 .suggestions {
   position: absolute;
   width: 100%;
-/*   top: 100%; */
-/*   left: 0;
+  /*   top: 100%; */
+  /*   left: 0;
   right: 0; */
   background-color: var(--bg-color1);
   outline: 1px solid #000;
@@ -100,6 +114,42 @@ hr {
 
 .suggestions li:hover {
   background-color: var(--bg-color2);
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.weatherImg {
+  height: 100px;
+  width: 100px;
+  grid-column: 2/3;
+  align-self: end;
+  justify-self: end;
+}
+
+.feelsLike__card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.feelsLike__card-head {
+  grid-column: 1/3;
+  text-align: center;
+  color: #999;
+  align-self: end;
+}
+
+.feelsLike__card-item {
+  grid-column: 1/2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  align-items: center;
+  & h2 {
+    margin-left: 10px;
+  }
 }
 
 .card {
