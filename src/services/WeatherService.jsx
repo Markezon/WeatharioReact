@@ -331,6 +331,23 @@ class WeatherService {
       lon: data[0].lon,
     };
   };
+
+  //CitySuggestions
+
+  getCitySuggestions = async (query) => {
+    if (!query.trim()) return [];
+
+    const data = await this.getResource(
+      `${this._apiBase}geo/1.0/direct?q=${query}&limit=5&appid=${this._apiKey}`
+    );
+
+    return data.map((city) => ({
+      name: city.name,
+      country: city.country,
+      lat: city.lat,
+      lon: city.lon,
+    }));
+  };
 }
 
 export default WeatherService;
