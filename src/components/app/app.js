@@ -16,6 +16,7 @@ class App extends Component {
       lon: 37.6174943,
       country: "",
       city: "",
+      weatherBackImage: "",
     };
   }
 
@@ -23,34 +24,61 @@ class App extends Component {
 
   componentDidMount() {
     this.updateUserCoordinates();
+    this.updateBackgroundImage();
   }
 
   updateUserCoordinates = () => {
     this.weatherService.getUserCoordinates().then((res) => {
+      this.setState(
+        {
+          lat: res.lat,
+          lon: res.lon,
+          city: res.city,
+          country: res.country,
+        }
+        /*         this.updateBackgroundImage */
+      );
+    });
+  };
+
+  updateBackgroundImage = () => {
+    this.weatherService.setCoordinates(this.state.lat, this.state.lon);
+    this.weatherService.getWeatherDetails().then((res) => {
+      console.log(res);
       this.setState({
-        lat: res.lat,
-        lon: res.lon,
-        city: res.city,
-        country: res.country,
+        weatherBackImage: res.weatherBackImage,
       });
     });
   };
 
   onSearch = (cityName) => {
-    this.weatherService.getCityCoordinates(cityName).then((data) => {
-      this.setState({
-        lat: data.lat,
-        lon: data.lon,
-        country: data.country,
-        city: data.name,
-      });
+    this.weatherService.getCityCoordinates(cityName).then((res) => {
+      this.setState(
+        {
+          lat: res.lat,
+          lon: res.lon,
+          country: res.country,
+          city: res.name,
+        },
+        this.updateBackgroundImage
+      );
     });
   };
 
   render() {
+    const { weatherBackImage } = this.state;
+
     return (
-      <div className="container">
-        <main>
+      <div
+        className="container"
+        style={{
+          backgroundImage: `url(/images/${weatherBackImage})`, // Используем фоновое изображение
+          backgroundSize: "cover", // Масштабируем фон
+          backgroundPosition: "center", // Центрируем фон
+          minHeight: "100vh", // Устанавливаем минимальную высоту для контейнера
+        }}
+      >
+        <main className="main">
           <AppHeader
             onSearch={this.onSearch}
             updateUserCoordinates={this.updateUserCoordinates}
@@ -62,6 +90,7 @@ class App extends Component {
                 lon={this.state.lon}
                 country={this.state.country}
                 city={this.state.city}
+                updateBackgroundImage={this.updateBackgroundImage}
               />
               <TodayForecast lat={this.state.lat} lon={this.state.lon} />
             </div>

@@ -15,6 +15,7 @@ class CurrentWeather extends Component {
   componentDidMount() {
     this.updateWeatherDetails();
     this.updateDate();
+
     /*     this.updateUserCoordinates().then(() => {
       this.updateWeatherDetails();
       this.updateDate();
@@ -23,9 +24,14 @@ class CurrentWeather extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.lat !== this.props.lat || prevProps.lon !== this.props.lon) {
+    if (
+      prevProps.lat !== this.props.lat ||
+      prevProps.lon !== this.props.lon /* ||
+      prevProps.weatherBackImage !== this.props.weatherBackImage */
+    ) {
       this.updateWeatherDetails();
     }
+
     /*     this.updateNameCountry(); */
   }
 
@@ -55,7 +61,11 @@ class CurrentWeather extends Component {
     this.setState({ loading: true, error: false });
     this.weatherService
       .getWeatherDetails()
-      .then(this.onDataLoaded)
+      .then((res) => {
+        this.onDataLoaded(res);
+        this.props.updateBackgroundImage();
+      })
+      /*       .then(this.onDataLoaded) */
       .catch(this.onError);
   };
 
@@ -115,15 +125,14 @@ class CurrentWeather extends Component {
 }
 
 const View = ({ data, dayNumber, day, month, year, city, country }) => {
-  const { temp, description, icon, feels_like } = data;
-
+  const { temp, description, icon, feels_like, weatherImg } = data;
   return (
     <>
       <div className="current-weather">
         <div className="details">
           <p>Now</p>
           <h2>{(temp - 273.15).toFixed(2)}&deg;C</h2>
-          <p>{description}</p>
+          <p>{description} </p>
         </div>
         <div className="weather-icon">
           <img src={icon} alt="weather-icon" />
@@ -133,8 +142,8 @@ const View = ({ data, dayNumber, day, month, year, city, country }) => {
       <hr />
       <div className="card-footer">
         <p>
-          <i className="fa-light fa-calendar"></i> {day}, {dayNumber} {month},{" "}
-          {year}
+          <i className="fa-light fa-calendar"></i> {day}, {weatherImg}{" "}
+          {dayNumber} {month}, {year}
         </p>
         <p>
           <i className="fa-light fa-location-dot"></i> {city}, {country}
@@ -151,7 +160,11 @@ const View = ({ data, dayNumber, day, month, year, city, country }) => {
           <h2 id="feelsVal">{(feels_like - 273.15).toFixed(2)}&deg;C</h2>
         </div>
 
-        <img src={icon} alt="weather-icon" className="weatherImg" />
+        <img
+          src={`${process.env.PUBLIC_URL}/${weatherImg}`}
+          alt="weather-icon"
+          className="weatherImg"
+        />
       </div>
     </>
   );

@@ -96,19 +96,72 @@ class WeatherService {
     const res = await this.getResource(
       `${this._apiBase}data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this._apiKey}`
     );
+/*     console.log(this._transformWeatherDetails(res)); */
     return this._transformWeatherDetails(res);
   };
 
-  _transformWeatherDetails = (data) => {
+  _transformWeatherDetails = (res) => {
+    let currentWeatherImg = "";
+    let backgroundImage = "";
+    switch (res.weather[0].icon) {
+      case "01n":
+      case "01d":
+        currentWeatherImg = "ClearSkySunny.svg";
+        backgroundImage = "ClearSky2.jpg";
+        break;
+      case "02n":
+      case "02d":
+        currentWeatherImg = "FewClouds.svg";
+        backgroundImage = "FewClouds.jpg";
+        break;
+      case "03n":
+      case "03d":
+        currentWeatherImg = "ScatteredClouds.svg";
+        backgroundImage = "ScatteredClouds.jpg";
+        break;
+      case "04n":
+      case "04d":
+        currentWeatherImg = "BrokenClouds.svg";
+        backgroundImage = "BrokenClouds.jpg";
+        break;
+      case "09n":
+      case "09d":
+      case "10n":
+      case "10d":
+        currentWeatherImg = "Rain.svg";
+        backgroundImage = "Rain.jpg";
+        break;
+      case "11n":
+      case "11d":
+        currentWeatherImg = "Thunderstorm.svg";
+        backgroundImage = "Thunderstorm.jpg";
+        break;
+      case "13n":
+      case "13d":
+        currentWeatherImg = "Snow.svg";
+        backgroundImage = "Snow.jpg";
+        break;
+      case "50n":
+      case "50d":
+        currentWeatherImg = "Mist.svg";
+        backgroundImage = "Mist.jpg";
+        break;
+      default:
+        currentWeatherImg = "WeatherioLogo.svg";
+        backgroundImage = "ClearSky2.jpg";
+    }
+
     return {
-      temp: data.main.temp,
-      description: data.weather[0].description,
-      icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-      humidity: data.main.humidity,
-      pressure: data.main.pressure,
-      feels_like: data.main.feels_like,
-      windSpeed: data.wind.speed,
-      visibility: data.visibility,
+      temp: res.main.temp,
+      description: res.weather[0].description,
+      icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`,
+      humidity: res.main.humidity,
+      pressure: res.main.pressure,
+      feels_like: res.main.feels_like,
+      windSpeed: res.wind.speed,
+      visibility: res.visibility,
+      weatherImg: currentWeatherImg,
+      weatherBackImage: backgroundImage,
     };
   };
 
@@ -180,7 +233,7 @@ class WeatherService {
         description2: item.weather[0].main,
       }));
 
-    console.log(data);
+/*     console.log(data); */
     return data;
   };
 
